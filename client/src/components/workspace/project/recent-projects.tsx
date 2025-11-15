@@ -63,7 +63,7 @@ const RecentProjects = () => {
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {project.createdAt
-                        ? format(project.createdAt, "PPP")
+                        ? format(new Date(project.createdAt), "PPP")
                         : null}
                     </p>
                   </div>

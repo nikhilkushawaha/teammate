@@ -127,7 +127,7 @@ export const getColumns = (projectId?: string): ColumnDef<TaskType>[] => {
       cell: ({ row }) => {
         return (
           <span className="lg:max-w-[100px] text-sm">
-            {row.original.dueDate ? format(row.original.dueDate, "PPP") : null}
+            {row.original.dueDate ? format(new Date(row.original.dueDate), "PPP") : null}
           </span>
         );
       },

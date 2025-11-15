@@ -68,7 +68,7 @@ const RecentTasks = () => {
                   {task.title}
                 </p>
                 <span className="text-sm text-gray-500">
-                  Due: {task.dueDate ? format(task.dueDate, "PPP") : null}
+                  Due: {task.dueDate ? format(new Date(task.dueDate), "PPP") : null}
                 </span>
               </div>
 
