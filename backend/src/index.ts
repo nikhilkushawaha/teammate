@@ -27,11 +27,19 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+// CORS must be configured before session middleware
+app.use(
+  cors({
+    origin: config.FRONTEND_ORIGIN,
+    credentials: true,
+  })
+);
+
 app.use(
   session({
     name: "session",
     keys: [config.SESSION_SECRET],
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
     secure: config.NODE_ENV === "production",
     httpOnly: true,
     sameSite: "lax",
@@ -40,13 +48,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(
-  cors({
-    origin: config.FRONTEND_ORIGIN,
-    credentials: true,
-  })
-);
 
 app.get(
   `/`,

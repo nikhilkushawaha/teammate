@@ -13,22 +13,22 @@ const WorkspaceDashboard = () => {
     <main className="flex flex-1 flex-col py-4 md:pt-3">
       <div className="flex items-center justify-between space-y-2 mb-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Workspace Overview
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mt-1">
             Here&apos;s an overview for this workspace!
           </p>
         </div>
-        <Button onClick={onOpen}>
+        <Button onClick={onOpen} size="lg" className="shadow-lg">
           <Plus />
           New Project
         </Button>
       </div>
       <WorkspaceAnalytics />
-      <div className="mt-4">
-        <Tabs defaultValue="projects" className="w-full border rounded-lg p-2">
-          <TabsList className="w-full justify-start border-0 bg-gray-50 px-1 h-12">
+      <div className="mt-6">
+        <Tabs defaultValue="projects" className="w-full border rounded-xl p-2 shadow-md hover:shadow-lg transition-shadow duration-300">
+          <TabsList className="w-full justify-start border-0 bg-muted/50 px-1 h-12 rounded-lg">
             <TabsTrigger className="py-2" value="projects">
               Recent Projects
             </TabsTrigger>
