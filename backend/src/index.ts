@@ -42,7 +42,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
     secure: config.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: config.NODE_ENV === "production" ? "none" : "lax",
   })
 );
 
@@ -57,7 +57,7 @@ app.get(
       ErrorCodeEnum.AUTH_INVALID_TOKEN
     );
     return res.status(HTTPSTATUS.OK).json({
-      message: "Hello Subscribe to the channel & share",
+      message: "Welcome to TeamMates",
     });
   })
 );
