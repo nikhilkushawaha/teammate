@@ -283,3 +283,20 @@ export type AllTaskResponseType = {
   tasks: TaskType[];
   pagination: PaginationType;
 };
+
+//********** */ CHAT TYPES ************************
+//************************************************* */
+
+export type ChatMessageType = {
+  _id: string;
+  workspaceId: string;
+  senderId: {
+    _id: string;
+    name: string;
+    email: string;
+    profilePicture: string | null;
+  };
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+};

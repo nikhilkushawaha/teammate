@@ -59,8 +59,7 @@ const SignUp = () => {
       onSuccess: () => {
         navigate("/");
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
         toast({
           title: "Error",
           description: error.message,
@@ -79,7 +78,7 @@ const SignUp = () => {
         >
           <Logo />
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            Teammate.
+            Teammates.
           </span>
         </Link>
         <div className="flex flex-col gap-6">

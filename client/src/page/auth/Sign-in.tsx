@@ -58,7 +58,6 @@ const SignIn = () => {
     mutate(values, {
       onSuccess: (data) => {
         const user = data.user;
-        console.log(user);
         const decodedUrl = returnUrl ? decodeURIComponent(returnUrl) : null;
         navigate(decodedUrl || `/workspace/${user.currentWorkspace}`);
       },
@@ -81,7 +80,7 @@ const SignIn = () => {
         >
           <Logo />
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            Teammate.
+            Teammates.
           </span>
         </Link>
         <div className="flex flex-col gap-6">

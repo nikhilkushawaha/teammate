@@ -14,6 +14,7 @@ import {
   EditProjectPayloadType,
   ProjectByIdPayloadType,
   ProjectResponseType,
+  ChatMessageType,
 } from "../types/api.type";
 import {
   AllWorkspaceResponseType,
@@ -259,5 +260,44 @@ export const deleteTaskMutationFn = async ({
   const response = await API.delete(
     `task/${taskId}/workspace/${workspaceId}/delete`
   );
+  return response.data;
+};
+
+//*******CHAT ********************************
+//************************* */
+
+export const getChatMessagesQueryFn = async (
+  workspaceId: string,
+  pageNumber: number = 1,
+  pageSize: number = 50
+): Promise<{
+  message: string;
+  messages: ChatMessageType[];
+  pagination: {
+    pageNumber: number;
+    pageSize: number;
+    totalMessages: number;
+    totalPages: number;
+  };
+}> => {
+  const response = await API.get(
+    `/chat/workspace/${workspaceId}/messages?pageNumber=${pageNumber}&pageSize=${pageSize}`
+  );
+  return response.data;
+};
+
+export const createChatMessageMutationFn = async ({
+  workspaceId,
+  message,
+}: {
+  workspaceId: string;
+  message: string;
+}): Promise<{
+  message: string;
+  chatMessage: ChatMessageType;
+}> => {
+  const response = await API.post(`/chat/workspace/${workspaceId}/messages`, {
+    message,
+  });
   return response.data;
 };

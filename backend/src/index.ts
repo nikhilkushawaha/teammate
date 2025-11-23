@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
+import http from "http";
 import cors from "cors";
 import session from "cookie-session";
 import { config } from "./config/app.config";
@@ -19,6 +20,9 @@ import workspaceRoutes from "./routes/workspace.route";
 import memberRoutes from "./routes/member.route";
 import projectRoutes from "./routes/project.route";
 import taskRoutes from "./routes/task.route";
+import chatRoutes from "./routes/chat.route";
+import { initializeSocketIO } from "./config/socket.config";
+import { setupChatSocket } from "./socket/chat.socket";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -35,14 +39,16 @@ app.use(
   })
 );
 
+const isProd=config.NODE_ENV === "production";
+
 app.use(
   session({
     name: "session",
     keys: [config.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    secure: config.NODE_ENV === "production",
+    secure: isProd,
     httpOnly: true,
-    sameSite: config.NODE_ENV === "production" ? "none" : "lax",
+    sameSite: isProd ? "none" : "lax",
   })
 );
 
@@ -68,10 +74,23 @@ app.use(`${BASE_PATH}/workspace`, isAuthenticated, workspaceRoutes);
 app.use(`${BASE_PATH}/member`, isAuthenticated, memberRoutes);
 app.use(`${BASE_PATH}/project`, isAuthenticated, projectRoutes);
 app.use(`${BASE_PATH}/task`, isAuthenticated, taskRoutes);
+app.use(`${BASE_PATH}/chat`, isAuthenticated, chatRoutes);
 
 app.use(errorHandler);
 
-app.listen(config.PORT, async () => {
+// Create HTTP server
+const httpServer = http.createServer(app);
+
+// Initialize Socket.io
+const io = initializeSocketIO(httpServer, app);
+
+// Setup chat socket handlers
+setupChatSocket(io);
+
+// Make io available globally for controllers (better approach would be dependency injection)
+(global as any).io = io;
+
+httpServer.listen(config.PORT, async () => {
   console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
   await connectDatabase();
 });
