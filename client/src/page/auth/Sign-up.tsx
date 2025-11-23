@@ -59,7 +59,7 @@ const SignUp = () => {
       onSuccess: () => {
         navigate("/");
       },
-      onError: () => {
+      onError: (error) => {
         toast({
           title: "Error",
           description: error.message,

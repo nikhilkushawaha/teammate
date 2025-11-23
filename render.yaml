@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: teammate-backend
+    env: node
+    buildCommand: npm install && npm run build:backend
+    startCommand: npm run start:backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: false
+
