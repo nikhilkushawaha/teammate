@@ -20,7 +20,7 @@ passport.use(
       scope: ["profile", "email"],
       passReqToCallback: true,
     },
-      async (req: Request, accessToken, refreshToken, profile, done) => {
+      async (req: Request, accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
       try {
         const { email, sub: googleId, picture } = profile._json;
         if (!googleId) {
@@ -49,7 +49,7 @@ passport.use(
       passwordField: "password",
       session: true,
     },
-    async (email, password, done) => {
+    async (email: string, password: string, done: (error: any, user?: any, info?: any) => void) => {
       try {
         const user = await verifyUserService({ email, password });
         return done(null, user);
@@ -60,5 +60,5 @@ passport.use(
   )
 );
 
-passport.serializeUser((user: any, done) => done(null, user));
-passport.deserializeUser((user: any, done) => done(null, user));
+passport.serializeUser((user: any, done: (err: any, id?: any) => void) => done(null, user));
+passport.deserializeUser((user: any, done: (err: any, user?: any) => void) => done(null, user));
