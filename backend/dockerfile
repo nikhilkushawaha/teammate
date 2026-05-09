@@ -1,0 +1,33 @@
+# --- Dependencies Stage ---
+FROM node:20-alpine AS deps
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm i
+
+
+# --- Production Stage ---
+FROM node:20-alpine
+
+RUN apk add --no-cache dumb-init
+
+WORKDIR /app
+
+# Copy production dependencies
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy app files
+COPY dist ./dist
+COPY package.json ./package.json
+
+# Use built-in non-root user
+USER node
+
+EXPOSE 8000
+
+# Proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+
+CMD ["node", "dist/index.js"]
